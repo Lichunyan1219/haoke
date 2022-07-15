@@ -1,0 +1,13 @@
+.van-nav-bar .van-icon {
+  color: #fdfeff;
+}
+.van-nav-bar {
+  background-color: #21b97a;
+}
+.van-nav-bar :deep(.van-nav-bar__title) {
+  color: #ffffff;
+  font-size: 18px;
+}
+.van-nav-bar__title {
+  color: #ffffff;
+}
