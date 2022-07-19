@@ -6,7 +6,7 @@
       <van-search placeholder="请输入搜索关键词">
         <template slot="label">
           <div @click="SelectTheCity">
-            <span>上海</span>
+            <span>{{ city ? city.label : '上海' }} </span>
             <i class="iconfont icon-xiajiantou"> </i>
           </div>
         </template>
@@ -23,26 +23,64 @@
       </van-swipe-item>
     </van-swipe>
     <!-- 中心导航 -->
-    <van-grid>
-      <van-grid-item icon="photo-o" text="文字" />
-      <van-grid-item icon="photo-o" text="文字" />
-      <van-grid-item icon="photo-o" text="文字" />
-      <van-grid-item icon="photo-o" text="文字" />
+    <van-grid class="home-nav" :border="false">
+      <van-grid-item @click="FindBtn">
+        <i slot="icon" class="iconfont icon-home"></i>
+        <span slot="text">整租</span>
+      </van-grid-item>
+      <van-grid-item @click="FindBtn">
+        <i slot="icon" class="iconfont icon-wodewo"></i>
+        <span slot="text">合租</span>
+      </van-grid-item>
+      <van-grid-item>
+        <i slot="icon" class="iconfont icon-ditu"></i>
+        <span slot="text">地图找房</span>
+      </van-grid-item>
+      <van-grid-item>
+        <i slot="icon" class="iconfont icon-fangwuchuzu"></i>
+        <span slot="text">去出租</span>
+      </van-grid-item>
+    </van-grid>
+    <!-- 租房小组 -->
+    <div class="home-group">
+      <van-cell-group>
+        <van-cell title="租房小组" value="更多" />
+      </van-cell-group>
+    </div>
+    <van-grid :column-num="2" :gutter="10" class="houseAll">
+      <van-grid-item v-for="item in houseAll" :key="item.id">
+        <template #default>
+          <div class="houseAll">
+            <div class="houseImg">
+              <img :src="imgUrl + item.imgSrc" alt="" />
+            </div>
+            <div class="houseData">
+              <span>{{ item.title }}</span
+              ><br />
+              <span>{{ item.desc }}</span>
+            </div>
+          </div>
+        </template>
+      </van-grid-item>
     </van-grid>
   </div>
 </template>
 
 <script>
-import { carousel } from '@/API/home'
+import { mapState } from 'vuex'
+import { carousel, getGroupData } from '@/API/home'
 export default {
   data() {
     return {
       carouselList: [], // 轮播图数据
-      imgUrl: 'http://liufusong.top:8080'
+      imgUrl: '',
+      houseAll: []
     }
   },
   created() {
     this.homeCarousel()
+    this.getGroupData()
+    // console.log(this.city.value)
   },
   methods: {
     // 获取轮播图数据
@@ -56,10 +94,25 @@ export default {
         // console.log(error)
       }
     },
+    // 选择城市
     SelectTheCity() {
       this.$router.push('/city')
+    },
+    // 获取租房小组数据
+    async getGroupData() {
+      try {
+        const res = await getGroupData(this.city.value)
+        this.imgUrl = res.config.baseURL
+        this.houseAll = res.data.body
+        console.log(this.houseAll)
+      } catch (error) {}
+    },
+    // 跳转到搜索页面
+    FindBtn() {
+      this.$router.push('/looking')
     }
-  }
+  },
+  computed: { ...mapState(['city']) }
 }
 </script>
 
@@ -113,5 +166,51 @@ export default {
 }
 [class*='van-hairline']::after {
   border: unset;
+}
+// 中心导航
+.home-nav {
+  span {
+    font-size: 14px;
+    margin-top: 20px;
+  }
+  .iconfont {
+    font-size: 40px;
+    color: #55c898;
+    background-color: #f2fbf7;
+    padding: 10px;
+    border-radius: 50%;
+  }
+}
+// 租房小组
+.home-group {
+  .van-cell-group {
+    background-color: unset;
+    .van-cell {
+      background-color: unset;
+    }
+  }
+}
+.houseAll {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .houseImg {
+    flex: 1;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .houseData {
+    flex: 1;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 700;
+  }
+}
+.houseAll {
+  :deep(.van-grid-item) {
+    height: 80px;
+  }
 }
 </style>

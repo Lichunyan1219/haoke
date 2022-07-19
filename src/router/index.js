@@ -38,6 +38,18 @@ const routes = [
   {
     path: '/city',
     component: () => import('@/views/city/index.vue')
+  },
+  {
+    path: '/myfavorite',
+    component: () => import('@/views/Myfavorite')
+  },
+  {
+    path: '/housing/:id',
+    component: () => import('@/components/Housing')
+  },
+  {
+    path: '/collect',
+    component: () => import('@/views/Mycollect')
   }
 ]
 

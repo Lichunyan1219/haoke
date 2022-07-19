@@ -46,12 +46,12 @@
       </div>
     </div>
     <!-- 我的导航栏 -->
-    <div class="my-data-nav">
+    <div class="my-data-nav" :class="{ nameno: !user }">
       <van-grid :column-num="3" :border="false" :clickable="true">
-        <van-grid-item text="我的收藏">
+        <van-grid-item text="我的收藏" @click="MyFavorite">
           <i slot="icon" class="iconfont icon-shoucang"></i>
         </van-grid-item>
-        <van-grid-item text="我的出租">
+        <van-grid-item text="我的出租" @click="MyCollext">
           <i slot="icon" class="iconfont icon-zhuye"></i>
         </van-grid-item>
         <van-grid-item text="看房记录">
@@ -113,8 +113,15 @@ export default {
       try {
         const res = await users()
         this.dataName = res.data.body
-        console.log(this.dataName)
+        // console.log(this.dataName)
       } catch (err) {}
+    },
+    //点击我的收藏跳转
+    MyFavorite() {
+      this.$router.push('/myfavorite')
+    },
+    MyCollext() {
+      this.$router.push('/collect')
     }
   },
   created() {
@@ -150,6 +157,7 @@ export default {
     left: 28px;
     text-align: center;
     box-shadow: 0px 0px 5px 5px #e8e7e3;
+    // margin-bottom: 30px;
 
     .my-data-img {
       position: absolute;
@@ -222,8 +230,8 @@ export default {
       height: 100%;
     }
   }
-}
-.van-grid {
-  margin-top: 100px;
+  .nameno {
+    margin-top: 150px;
+  }
 }
 </style>

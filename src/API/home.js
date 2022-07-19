@@ -7,11 +7,15 @@ export const carousel = () => {
     method: 'GET'
   })
 }
-// 轮播图图片请求接口
-export const carouselImg = (imgSrc) => {
+
+// 租房小组数据接口
+
+export const getGroupData = (area) => {
   return request({
-    url: imgSrc,
-    method: 'GET'
+    url: '/home/groups',
+    method: 'GET',
+    params: {
+      area
+    }
   })
 }
-// console.log(imgSrc);

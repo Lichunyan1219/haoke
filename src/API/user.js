@@ -17,6 +17,23 @@ export const login = (username, password) => {
 export const users = () => {
   return request({
     url: '/user',
-    method: 'GET',
+    method: 'GET'
+  })
+}
+
+// 请求收藏数据
+
+export const favorite = () => {
+  return request({
+    url: '/user/favorites',
+    method: 'GET'
+  })
+}
+
+// 请求出租数据
+export const collect = () => {
+  return request({
+    url: '/user/houses',
+    method: 'GET'
   })
 }

@@ -13,6 +13,11 @@ import { Lazyload } from 'vant'
 Vue.use(Lazyload)
 
 Vue.config.productionTip = false
+import BaiduMap from 'vue-baidu-map'
+
+Vue.use(BaiduMap, {
+  ak: 'b5bGl8WIlq3py3kkiB6ZYMi6zy1c0Gib'
+})
 
 new Vue({
   router,

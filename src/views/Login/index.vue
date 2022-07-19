@@ -1,8 +1,7 @@
 <template>
   <div class="login-form">
     <!-- 标题导航 -->
-    <van-nav-bar left-arrow title="账号登录" @click-left="onClickLeft"
-/>
+    <van-nav-bar left-arrow title="账号登录" @click-left="onClickLeft" />
     <!-- 账号输入框 -->
     <van-form @submit="onSubmit">
       <van-field
@@ -65,18 +64,14 @@ export default {
         } else {
           this.$toast.success('登录异常,请稍后再试') // 关闭加载中状态，提示异常
         }
-      } catch (err) {
-        // console.log(err)
-      }
+      } catch (err) {}
     },
     findBtn() {
       this.$router.push('/register')
     },
     onClickLeft() {
       this.$router.back()
-
     }
-
   }
 }
 </script>

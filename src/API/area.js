@@ -10,6 +10,9 @@ export const hotCity = () => {
 export const CityAll = () => {
   return request({
     url: '/area/city',
-    method: 'GET'
+    method: 'GET',
+    params: {
+      level: 1,
+    }
   })
 }
