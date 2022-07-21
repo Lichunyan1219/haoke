@@ -36,7 +36,7 @@
         <i slot="icon" class="iconfont icon-ditu"></i>
         <span slot="text">地图找房</span>
       </van-grid-item>
-      <van-grid-item>
+      <van-grid-item @click="$router.push('/publishhouse')">
         <i slot="icon" class="iconfont icon-fangwuchuzu"></i>
         <span slot="text">去出租</span>
       </van-grid-item>
@@ -104,7 +104,7 @@ export default {
         const res = await getGroupData(this.city.value)
         this.imgUrl = res.config.baseURL
         this.houseAll = res.data.body
-        console.log(this.houseAll)
+        // console.log(this.houseAll)
       } catch (error) {}
     },
     // 跳转到搜索页面

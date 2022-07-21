@@ -50,6 +50,10 @@ const routes = [
   {
     path: '/collect',
     component: () => import('@/views/Mycollect')
+  },
+  {
+    path: "/publishhouse",
+    component: () => import('@/views/PublishHouse')
   }
 ]
 

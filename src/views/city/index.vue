@@ -7,9 +7,13 @@
         <div class="iconfont icon-youjiantou" @click="back"></div>
       </template>
     </van-nav-bar>
+    <div class="rem">
+      <p>当前城市</p>
+      <span>{{ $store.state.city.label }}</span>
+    </div>
     <!-- 热门城市 -->
     <div>
-      <van-index-anchor index="2">热门城市</van-index-anchor>
+      <van-index-anchor index="热">热门城市</van-index-anchor>
       <van-cell
         :title="ele.label"
         v-for="(ele, index) in hotCity"
@@ -66,6 +70,7 @@ export default {
         this.cityDts = this.city.cityIndex // 处理后的列表索引数据
         this.getCity() // 处理城市索引
         this.hotCity = data.body // 热门城市数据
+        console.log(this.list)
         // console.log(data.body)
       } catch (err) {}
     },
@@ -95,6 +100,7 @@ export default {
         // const cityList = []
         this.cityList.push(item.toUpperCase())
       })
+      this.cityList.unshift('#', '热')
     },
     SelectTheCity(ele) {
       this.$store.commit('setCity', ele)
@@ -110,5 +116,22 @@ export default {
 <style lang="less" scoped>
 .icon-youjiantou {
   color: #fff;
+}
+.rem {
+  color: #333;
+  font-size: 14px;
+  // padding-left: 15px;
+  p {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5px;
+    padding-left: 15px;
+  }
+  span {
+    display: block;
+    background-color: #fff;
+    padding: 8px 0px 8px 15px;
+    border-bottom: 1px solid #e5e5e5;
+  }
 }
 </style>
