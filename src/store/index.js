@@ -11,7 +11,9 @@ const TOUTIAO_CITY_NAME = 'TOUTIAO_PASSWORD'
 export default new Vuex.Store({
   state: {
     user: getItem(TOUTIAO_USERNAME),
-    city: getItem(TOUTIAO_CITY_NAME) // 点击当前房屋数据
+    city: getItem(TOUTIAO_CITY_NAME), // 点击当前房屋数据
+    finished: false, // 是否加载完成
+    loading: false // 是否加载中
   },
   mutations: {
     setUser(state, data) {
@@ -25,6 +27,12 @@ export default new Vuex.Store({
     setCity(state, data) {
       state.city = data
       setItem(TOUTIAO_CITY_NAME, state.city)
+    },
+    setLoad(state, data) {
+      state.loading = data
+    },
+    setFinish(state, data) {
+      state.finished = data
     }
   },
   actions: {},

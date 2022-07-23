@@ -15,9 +15,11 @@ export const houseCondition = (id) => {
   })
 }
 // 查询该地区房源数据
-export const RegionalHousing = (id) => {
+export const RegionalHousing = (params) => {
   return request({
     url: '/houses',
-    params: {id}
+    params: {
+      ...params
+    }
   })
 }

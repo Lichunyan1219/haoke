@@ -1,24 +1,31 @@
 <template>
   <div>
     <!-- 房屋列表 -->
-    <div
-      class="dummy-list"
-      v-for="(ele, index) in List"
-      :key="index"
-      @click="HousingBtn(ele.houseCode)"
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
     >
-      <!-- 房屋图片 -->
-      <div class="dummy-list-img">
-        <img :src="URL + ele.houseImg" alt="" />
+      <div
+        class="dummy-list"
+        v-for="(ele, index) in List"
+        :key="index"
+        @click="HousingBtn(ele.houseCode)"
+      >
+        <!-- 房屋图片 -->
+        <div class="dummy-list-img">
+          <img :src="URL + ele.houseImg" alt="" />
+        </div>
+        <!-- 房屋信息 -->
+        <div class="dummy-list-data">
+          <p class="title">{{ ele.title }}</p>
+          <p class="massage">{{ ele.desc }}</p>
+          <p class="label">{{ ele.tags[0] }}</p>
+          <p class="price">{{ ele.price }} 元/月</p>
+        </div>
       </div>
-      <!-- 房屋信息 -->
-      <div class="dummy-list-data">
-        <p class="title">{{ ele.title }}</p>
-        <p class="massage">{{ ele.desc }}</p>
-        <p class="label">{{ ele.tags[0] }}</p>
-        <p class="price">{{ ele.price }} 元/月</p>
-      </div>
-    </div>
+    </van-list>
   </div>
 </template>
 
@@ -27,7 +34,9 @@ import { URL } from '@/utils/http'
 export default {
   data() {
     return {
-      URL
+      URL,
+      loading: false,
+      finished: false
     }
   },
   props: {
@@ -39,6 +48,11 @@ export default {
   methods: {
     HousingBtn(id) {
       this.$router.push('/housing/' + id)
+    },
+    onLoad() {
+      this.loading = this.$store.state.loading
+      this.finished = this.$store.state.finished
+      this.$emit('loadBtn')
     }
   }
 }
@@ -55,16 +69,21 @@ export default {
     height: 100px;
     // margin-right: 10px;
     margin: auto 0;
-
     img {
-      width: 100%;
+      width: 150px;
       height: 100%;
     }
   }
   .dummy-list-data {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: auto 0;
     padding-left: 10px;
     p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       padding: 0;
       margin: 0;
       -webkit-margin-before: 0;

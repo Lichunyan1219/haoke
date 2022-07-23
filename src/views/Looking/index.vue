@@ -17,114 +17,124 @@
       </template>
     </van-nav-bar>
     <!-- 筛选面板 -->
-    <div class="selectionPanel">
-      <van-dropdown-menu>
-        <van-dropdown-item title="区域">
-          <van-picker :columns="InScreening" ref="area" />
+    <van-sticky>
+      <div class="selectionPanel">
+        <van-dropdown-menu>
+          <!-- 区域 -->
+          <van-dropdown-item title="区域" ref="menu">
+            <van-picker :columns="InScreening" ref="area" />
+            <div class="house-btn">
+              <van-button class="no-button">取消</van-button>
+              <van-button class="yes-button" @click="areaBtn">确定</van-button>
+            </div>
+          </van-dropdown-item>
+          <!-- 方式 -->
+          <van-dropdown-item title="方式" ref="menu1">
+            <van-picker :columns="WayToScreen" ref="way" />
+            <div class="house-btn">
+              <van-button class="no-button">取消</van-button>
+              <van-button class="yes-button" @click="wayBtn">确定</van-button>
+            </div>
+          </van-dropdown-item>
+
+          <van-dropdown-item title="价钱" ref="menu2">
+            <van-picker :columns="PriceOfScreening" ref="price" />
+            <div class="house-btn">
+              <van-button class="no-button">取消</van-button>
+              <van-button class="yes-button" @click="priceBtn">确定</van-button>
+            </div>
+          </van-dropdown-item>
+
+          <van-dropdown-item title="筛选" @open="show = true" ref="menu3">
+          </van-dropdown-item>
+        </van-dropdown-menu>
+        <van-popup
+          v-model="show"
+          position="right"
+          :style="{ height: '100%', width: '80%' }"
+        >
+          <!-- 详细筛选面板 -->
+          <van-cell title="户型" />
+          <!-- 户型 -->
+          <van-checkbox-group v-model="result" checked-color="#defaef">
+            <van-grid :column-num="2" :gutter="20">
+              <van-grid-item v-for="(item, index) in HouseType" :key="index">
+                <template #default>
+                  <div class="b">
+                    <van-checkbox :name="item.value">
+                      <div class="a">{{ item.text }}</div>
+                    </van-checkbox>
+                  </div>
+                </template>
+              </van-grid-item>
+            </van-grid>
+          </van-checkbox-group>
+          <van-cell title="朝向" />
+          <!-- 朝向 -->
+          <van-checkbox-group v-model="result" checked-color="#defaef">
+            <van-grid :column-num="2" :gutter="20">
+              <van-grid-item v-for="(item, index) in orientation" :key="index">
+                <template #default>
+                  <div class="b">
+                    <van-checkbox :name="item.value">
+                      <div class="a">{{ item.text }}</div>
+                    </van-checkbox>
+                  </div>
+                </template>
+              </van-grid-item>
+            </van-grid>
+          </van-checkbox-group>
+          <van-cell title="楼层" />
+          <!-- 楼层 -->
+          <van-checkbox-group v-model="result" checked-color="#defaef">
+            <van-grid :column-num="2" :gutter="20">
+              <van-grid-item v-for="(item, index) in floor" :key="index">
+                <template #default>
+                  <div class="b">
+                    <van-checkbox :name="item.value">
+                      <div class="a">{{ item.text }}</div>
+                    </van-checkbox>
+                  </div>
+                </template>
+              </van-grid-item>
+            </van-grid>
+          </van-checkbox-group>
+          <van-cell title="房屋亮点" />
+          <!-- 房屋亮点 -->
+          <van-checkbox-group v-model="result" checked-color="#defaef">
+            <van-grid :column-num="2" :gutter="20">
+              <van-grid-item v-for="(item, index) in HouseWindow" :key="index">
+                <template #default>
+                  <div class="b">
+                    <van-checkbox :name="item.value">
+                      <div class="a">{{ item.text }}</div>
+                    </van-checkbox>
+                  </div>
+                </template>
+              </van-grid-item>
+            </van-grid>
+          </van-checkbox-group>
+        </van-popup>
+        <van-popup
+          v-model="show"
+          position="right"
+          :overlay="false"
+          class="offCan"
+          :style="{ height: '10%', width: '80%' }"
+        >
           <div class="house-btn">
-            <van-button class="no-button">清空</van-button>
-            <van-button class="yes-button" @click="areaBtn">确定</van-button>
+            <van-button class="no-button" @click="cancelBtn">清空</van-button>
+            <van-button class="yes-button" @click="detailsBtn">确定</van-button>
           </div>
-        </van-dropdown-item>
-        <van-dropdown-item title="方式">
-          <van-picker :columns="WayToScreen" />
-          <div class="house-btn">
-            <van-button class="no-button">清空</van-button>
-            <van-button class="yes-button">确定</van-button>
-          </div>
-        </van-dropdown-item>
-        <van-dropdown-item title="价钱">
-          <van-picker :columns="PriceOfScreening" />
-          <div class="house-btn">
-            <van-button class="no-button">清空</van-button>
-            <van-button class="yes-button">确定</van-button>
-          </div>
-        </van-dropdown-item>
-        <van-dropdown-item title="筛选" @open="show = true">
-        </van-dropdown-item>
-      </van-dropdown-menu>
-      <van-popup
-        v-model="show"
-        position="right"
-        :style="{ height: '100%', width: '80%' }"
-      >
-        <!-- 详细筛选面板 -->
-        <van-cell title="户型" />
-        <!-- 户型 -->
-        <van-checkbox-group v-model="result" checked-color="#defaef">
-          <van-grid :column-num="2" :gutter="20">
-            <van-grid-item v-for="(item, index) in HouseType" :key="index">
-              <template #default>
-                <div class="b">
-                  <van-checkbox :name="item.value">
-                    <div class="a">{{ item.text }}</div>
-                  </van-checkbox>
-                </div>
-              </template>
-            </van-grid-item>
-          </van-grid>
-        </van-checkbox-group>
-        <van-cell title="朝向" />
-        <!-- 朝向 -->
-        <van-checkbox-group v-model="result" checked-color="#defaef">
-          <van-grid :column-num="2" :gutter="20">
-            <van-grid-item v-for="(item, index) in orientation" :key="index">
-              <template #default>
-                <div class="b">
-                  <van-checkbox :name="item.value">
-                    <div class="a">{{ item.text }}</div>
-                  </van-checkbox>
-                </div>
-              </template>
-            </van-grid-item>
-          </van-grid>
-        </van-checkbox-group>
-        <van-cell title="楼层" />
-        <!-- 楼层 -->
-        <van-checkbox-group v-model="result" checked-color="#defaef">
-          <van-grid :column-num="2" :gutter="20">
-            <van-grid-item v-for="(item, index) in floor" :key="index">
-              <template #default>
-                <div class="b">
-                  <van-checkbox :name="item.value">
-                    <div class="a">{{ item.text }}</div>
-                  </van-checkbox>
-                </div>
-              </template>
-            </van-grid-item>
-          </van-grid>
-        </van-checkbox-group>
-        <van-cell title="房屋亮点" />
-        <!-- 房屋亮点 -->
-        <van-checkbox-group v-model="result" checked-color="#defaef">
-          <van-grid :column-num="2" :gutter="20">
-            <van-grid-item v-for="(item, index) in HouseWindow" :key="index">
-              <template #default>
-                <div class="b">
-                  <van-checkbox :name="item.value">
-                    <div class="a">{{ item.text }}</div>
-                  </van-checkbox>
-                </div>
-              </template>
-            </van-grid-item>
-          </van-grid>
-        </van-checkbox-group>
-      </van-popup>
-      <van-popup
-        v-model="show"
-        position="right"
-        :overlay="false"
-        class="offCan"
-        :style="{ height: '10%', width: '80%' }"
-      >
-        <div class="house-btn">
-          <van-button class="no-button" @click="cancelBtn">清空</van-button>
-          <van-button class="yes-button">确定</van-button>
-        </div>
-      </van-popup>
-    </div>
+        </van-popup>
+      </div>
+    </van-sticky>
     <!-- 列表 -->
-    <BuildingList :List="HouseList"></BuildingList>
+
+    <div class="houseList">
+      <BuildingList :List="HouseList" @loadBtn="loadBtn"></BuildingList>
+      <div class="NoHouseList" v-if="NoHouseList">暂无房源</div>
+    </div>
   </div>
 </template>
 
@@ -151,7 +161,11 @@ export default {
       HouseWindow: [], // 房屋亮点数据
       floor: [], // 楼层数据
       orientation: [], // 朝向数据
-      HouseType: [] // 房屋类型数据
+      HouseType: [], // 房屋类型数据// 地铁线请求接口数据
+      more: null, // 详细接口
+      stat: 1, // 分页状态
+      end: 20, // 分页结束数据
+      NoHouseList: false // 无数据显示
     }
   },
   components: {
@@ -171,11 +185,9 @@ export default {
     this.floor = this.area.floor // 楼层数据
     this.orientation = this.area.oriented // 朝向数据
     this.HouseType = this.area.roomType // 房屋类型数据
+    this.add()
     this.fn()
     // this.getRegionalHousings()
-    const { data } = await RegionalHousing(this.city.value) // 房屋列表数据请求
-    this.HouseList = data.body.list // 房屋列表数据
-    // console.log(this.HouseList)
   },
   methods: {
     // 三层级联选择器，第二层第一个为空，所以手动添加走到第三层
@@ -183,45 +195,106 @@ export default {
       this.InScreening[0].children[0].children = [{ text: '' }]
       this.InScreening[1].children[0].children = [{ text: '' }]
     },
+    // 获取列表筛选数据
+    async add() {
+      this.$store.commit('setLoad', true)
+      const { data } = await RegionalHousing({
+        cityid: this.city.value,
+        rentType: this.rentType,
+        subway: this.subway,
+        area: this.HouseMessage,
+        price: this.price,
+        more: this.more,
+        stat: this.stat,
+        end: this.end
+      }) // 房屋列表数据请求
+      this.HouseList = data.body.list // 房屋列表数据
+      this.$store.commit('setLoad', false)
+      if (data.body.list.length < 5) {
+        this.$store.commit('setFinish', true)
+      }
+      if (data.body.list.length == 0) {
+        this.NoHouseList = true
+      }
+    },
     // 具体信息筛选取消按钮
     cancelBtn() {
       this.result = []
       this.show = false
     },
-
+    // 返回上一页
     onClickLeft() {
       this.$router.back()
     },
-    onConfirm() {
-      this.$refs.item.toggle()
-    },
     // 判断用户选择的的地址
-    areaBtn() {
+    // 发送不同的请求，获取不同的数据
+    async areaBtn() {
+      this.$refs.menu.toggle(false)
       const res = this.$refs.area.getValues()
-      if (res[0].name === '区域') {
+      if (res[0].text !== '地铁') {
         res.forEach((item, index) => {
           if (item.value !== 'null' && item.value) {
             this.HouseMessage = item.value
           } else {
-            this.HouseMessages = res[index - 1].value
+            this.HouseMessage = res[index - 1].value
               ? res[index - 1].value
               : res[0].value
           }
         })
+        this.subway = null
+        this.add()
       } else {
-        res.forEach((item, index) => {
-          if (item.value !== 'null' && item.value) {
-            this.subway = item.value
+        res.forEach((i, index) => {
+          if (i.value !== 'null' && !!i.value) {
+            return (this.subway = i.value)
+            // console.log(this.subways)
           } else {
-            this.subways = res[index - 1].value
+            this.subway = !!res[index - 1].value
               ? res[index - 1].value
               : res[0].value
           }
         })
+        this.HouseMessage = null
+        this.add()
       }
     },
-    // 请求数据
-    async getHouses() {}
+    // 出租方式筛选
+    wayBtn() {
+      this.$refs.menu1.toggle(false)
+      const res = this.$refs.way.getValues()
+      if (res[0].text === '整租') {
+        this.rentType = true
+      } else if (res[0].text === '合租') {
+        this.rentType = false
+      } else {
+        this.rentType = null
+      }
+      console.log(this.rentType)
+      this.add()
+    },
+    // 价格筛选
+    priceBtn() {
+      this.$refs.menu2.toggle(false)
+      const res = this.$refs.price.getValues()
+      if (res[0].text === '不限') {
+        this.price = null
+      } else {
+        this.price = res[0].value
+      }
+      this.add()
+    },
+    detailsBtn() {
+      this.show = false
+      if (this.result.length !== 0) {
+        this.more = this.result.join(',')
+      }
+      this.add()
+    },
+    loadBtn() {
+      this.stat++
+      this.end += 10
+      this.add()
+    }
   }
 }
 </script>
@@ -313,5 +386,8 @@ export default {
 }
 .offCan {
   margin-top: 300px;
+}
+.houseList {
+  margin-bottom: 50px;
 }
 </style>

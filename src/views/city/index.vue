@@ -9,7 +9,9 @@
     </van-nav-bar>
     <div class="rem">
       <p>当前城市</p>
-      <span>{{ $store.state.city.label }}</span>
+      <span>{{
+        $store.state.city ? $store.state.city.label : '上海'
+      }}</span>
     </div>
     <!-- 热门城市 -->
     <div>
