@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5024115",
+      "name": "床",
+      "font_class": "b11",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
       "icon_id": "1082",
       "name": "电视机",
       "font_class": "b7",

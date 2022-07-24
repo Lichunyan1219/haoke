@@ -52,8 +52,12 @@ const routes = [
     component: () => import('@/views/Mycollect')
   },
   {
-    path: "/publishhouse",
+    path: '/publishhouse',
     component: () => import('@/views/PublishHouse')
+  },
+  {
+    path: '/search',
+    component: () => import('@/views/PublishHouse/search')
   }
 ]
 

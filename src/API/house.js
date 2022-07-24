@@ -23,3 +23,20 @@ export const RegionalHousing = (params) => {
     }
   })
 }
+// 查询小区
+
+export const QueryVillage = (name, id) => {
+  return request({
+    url: '/area/community',
+    params: {
+      name,
+      id
+    }
+  })
+}
+// 获取房屋发布条件
+export const PublishingHouse = () => {
+  return request({
+    url: '/houses/params'
+  })
+}

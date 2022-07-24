@@ -13,7 +13,8 @@ export default new Vuex.Store({
     user: getItem(TOUTIAO_USERNAME),
     city: getItem(TOUTIAO_CITY_NAME), // 点击当前房屋数据
     finished: false, // 是否加载完成
-    loading: false // 是否加载中
+    loading: false, // 是否加载中
+    SearchList: {} // 搜索小区
   },
   mutations: {
     setUser(state, data) {
@@ -33,6 +34,9 @@ export default new Vuex.Store({
     },
     setFinish(state, data) {
       state.finished = data
+    },
+    setSearchList(state, data) {
+      state.SearchList = data
     }
   },
   actions: {},
