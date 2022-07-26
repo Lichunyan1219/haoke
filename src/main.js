@@ -14,11 +14,17 @@ Vue.use(Lazyload)
 
 Vue.config.productionTip = false
 import BaiduMap from 'vue-baidu-map'
-
-Vue.use(BaiduMap, {
-  ak: 'b5bGl8WIlq3py3kkiB6ZYMi6zy1c0Gib'
+import VueBMap from 'vue-bmap-gl'
+import 'vue-bmap-gl/dist/style.css'
+Vue.use(VueBMap)
+VueBMap.initBMapApiLoader({
+  ak: 'sEloHHFl91d2ecHVinRBspUhc6SG0KcM',
+  v: '1.0'
 })
-
+Vue.use(BaiduMap, {
+  ak: 'sEloHHFl91d2ecHVinRBspUhc6SG0KcM'
+})
+import 'amfe-flexible'
 new Vue({
   router,
   store,

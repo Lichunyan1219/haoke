@@ -12,7 +12,7 @@
         </template>
       </van-search>
       <!-- 地图 -->
-      <div class="ditu-nav">
+      <div class="ditu-nav" @click="$router.push('/map')">
         <i class="iconfont icon-ditu1"></i>
       </div>
     </div>

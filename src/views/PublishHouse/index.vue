@@ -53,17 +53,39 @@
           <span>房</span>
           <span>型</span>
         </div>
-        <div @click="roomTypeBtn">请选择<van-icon name="arrow" /></div>
+        <div @click="show1 = !show1">
+          {{ ChooseRoom.label ? ChooseRoom.label : '请选择'
+          }}<van-icon name="arrow" />
+        </div>
       </van-cell>
+      <van-popup v-model="show1" position="bottom" :style="{ height: '40%' }">
+        <van-picker
+          title="房型"
+          show-toolbar
+          :columns="roomType"
+          value-key="label"
+          @confirm="onConfirm1"
+          @cancel="onCancel"
+      /></van-popup>
     </div>
     <!-- 所在楼层 -->
     <div>
       <div>
         <van-cell title="所在楼层">
-          <div @click="floorBtn">
-            <span>请选择</span><van-icon name="arrow" />
+          <div @click="show = !show">
+            <span>{{ SelectFloor.label ? SelectFloor.label : '请选择' }}</span
+            ><van-icon name="arrow" />
           </div>
         </van-cell>
+        <van-popup v-model="show" position="bottom" :style="{ height: '40%' }">
+          <van-picker
+            title="标题"
+            show-toolbar
+            :columns="floor"
+            value-key="label"
+            @confirm="onConfirm"
+            @cancel="onCancel"
+        /></van-popup>
       </div>
     </div>
     <!-- 朝向 -->
@@ -73,30 +95,45 @@
           <span>朝</span>
           <span>向</span>
         </div>
-        <div @click="orientedBtn">请选择<van-icon name="arrow" /></div>
+        <div @click="show2 = !show2">
+          {{ ChooseTowards.label ? ChooseTowards.label : '请选择'
+          }}<van-icon name="arrow" />
+        </div>
       </van-cell>
+      <van-popup v-model="show2" position="bottom" :style="{ height: '40%' }">
+        <van-picker
+          title="房型"
+          show-toolbar
+          :columns="oriented"
+          value-key="label"
+          @confirm="onConfirm2"
+          @cancel="onCancel"
+      /></van-popup>
     </div>
     <!-- 房屋标题 -->
     <div class="HouseTitle">
       <van-cell title="房屋标题" />
-      <van-field placeholder="请输入标题(例如：整租 小区名 两室 5000元)" />
+      <van-field
+        placeholder="请输入标题(例如：整租 小区名 两室 5000元)"
+        v-model="HouseTitle"
+      />
     </div>
     <!-- 房屋图像-->
     <div class="HouseTitle">
       <van-cell title="房屋图像" />
-      <van-uploader icon="plus" v-model="fileList" />
+      <van-uploader icon="plus" v-model="fileList" type="file" />
     </div>
     <!-- 房屋配置 -->
     <div class="houseIcon">
       <van-cell title="房屋配置" />
       <van-grid :column-num="5" :border="false">
-        <!-- <div class="houseIcon"> -->
-        <houseIcon
+        <van-grid-item
           v-for="(ele, index) in supporting"
+          @click="SelectConfiguration(ele.label, index)"
           :key="index"
-          :ele="ele"
-        ></houseIcon>
-        <!-- </div> -->
+          ><span ref="vanCell1" :class="houseIcon[index]"></span
+          ><span ref="vanCell">{{ ele.label }}</span></van-grid-item
+        >
       </van-grid>
     </div>
     <!-- 房屋描述 -->
@@ -109,50 +146,62 @@
             :style="{ height: '100px' }"
             type="textarea"
             placeholder="请输入房屋描述信息"
+            v-model="HouseDescription"
           />
         </template>
       </van-cell>
     </div>
-    <!-- 选择器组件 -->
-    <van-popup v-model="show" position="bottom" :style="{ height: '50%' }">
-      <picker :list="list" @onCancel="onCancel"></picker
-    ></van-popup>
-
     <!-- 底部按钮 -->
     <div class="house-btn">
-      <van-button class="no-button">清空</van-button>
-      <van-button class="yes-button">确定</van-button>
+      <van-button class="no-button" @click="noRental">清空</van-button>
+      <van-button class="yes-button" @click="ImageUpload(fileList[0])"
+        >确定</van-button
+      >
     </div>
   </div>
 </template>
 
 <script>
-import { PublishingHouse } from '@/API/house'
-import picker from './picker'
-import houseIcon from './houseIcon'
+import { PublishingHouse, Rental, ImageUpload } from '@/API/house'
 export default {
   data() {
     return {
-      fileList: [],
       HouseName: this.$store.state.SearchList.communityName,
-      price: '', // 租金
-      floorNum: '', // 建筑面积
-      roomType: [], // 户型
-      floor: [], // 所在楼层
-      oriented: [], // 朝向
-      supporting: [], // 房屋配置
-      list: [], // 选择器组件数据
-      show: false // 选择器组件显示隐藏
+      roomType: [], // 户型请求数据
+      floor: [], // 所在楼层请求数据
+      oriented: [], // 朝向请求数据
+      supporting: [], // 房屋配置请求数据
+      houseIcon: {
+        0: 'iconfont icon-b7',
+        1: 'iconfont icon-b5',
+        2: 'iconfont icon-b2',
+        3: 'iconfont icon-b3',
+        4: 'iconfont icon-b8',
+        5: 'iconfont icon-b11',
+        6: 'iconfont icon-b6',
+        7: 'iconfont icon-b9',
+        8: 'iconfont icon-b1',
+        9: 'iconfont icon-b4'
+      },
+      HousingAllocation: [], // 发布房源配置选中数据
+      fileList: [], // 图片选中数据
+      floorNum: '', // 建筑面积数据
+      price: '', // 租金数据
+      show: false, // 楼层弹出框
+      show1: false, // 房型弹出框
+      show2: false, // 朝向弹出框
+      SelectFloor: {}, // 楼层选中数据
+      ChooseRoom: {}, // 房型选中数据
+      ChooseTowards: {}, // 朝向选中数据
+      HouseTitle: '', // 房屋标题
+      HouseDescription: '' // 房屋描述
     }
-  },
-  components: {
-    picker,
-    houseIcon
   },
   methods: {
     onClickLeft() {
-      this.$router.back()
+      this.$router.push('/home')
     },
+    // 获取发布房源数据
     async PublishingHouse() {
       const res = await PublishingHouse()
       console.log(res.data.body)
@@ -160,26 +209,112 @@ export default {
       this.floor = res.data.body.floor
       this.oriented = res.data.body.oriented
       this.supporting = res.data.body.supporting
-      // console.log()
     },
-    // 户型选择按钮
-    roomTypeBtn() {
-      this.list = this.roomType
-      this.show = true
+    // 选中房屋配置变色，取消选中删除
+    SelectConfiguration(value, index) {
+      if (
+        this.$refs.vanCell[index].style.color !== '' &&
+        this.$refs.vanCell1[index].style.color !== ''
+      ) {
+        this.$refs.vanCell[index].style.color = ''
+        this.$refs.vanCell1[index].style.color = ''
+        this.HousingAllocation.splice(this.HousingAllocation.indexOf(value), 1)
+      } else {
+        this.$refs.vanCell[index].style.color = '#12d269'
+        this.$refs.vanCell1[index].style.color = '#12d269'
+        if (this.HousingAllocation.indexOf(value) === -1) {
+          this.HousingAllocation.push(value)
+        }
+      }
     },
-    // 所在楼层选择按钮
-    floorBtn() {
-      this.list = this.floor
-      this.show = true
-    },
-    // 朝向选择按钮
-    orientedBtn() {
-      this.list = this.oriented
-      this.show = true
-    },
-    // 取消关闭按钮
     onCancel() {
       this.show = false
+      this.show1 = false
+    },
+    onConfirm(value) {
+      this.SelectFloor = value
+      this.show = !this.show
+    },
+    onConfirm1(value) {
+      this.ChooseRoom = value
+      this.show1 = !this.show1
+    },
+    onConfirm2(value) {
+      this.ChooseTowards = value
+      this.show2 = !this.show2
+    },
+    // 发布房源按钮
+    async Rental(img) {
+      try {
+        await Rental({
+          title: this.HouseTitle,
+          description: this.HouseDescription,
+          supporting: this.HousingAllocation.join('|'),
+          price: this.price,
+          size: this.floorNum,
+          roomType: this.ChooseRoom.value,
+          floor: this.SelectFloor.value,
+          oriented: this.ChooseTowards.value,
+          houseImg: img
+        })
+        this.$dialog
+          .confirm({
+            title: '发布成功',
+            cancelButtonText: '继续发布',
+            confirmButtonText: '去查看',
+            confirmButtonColor: '#61affe'
+          })
+          .then(() => {
+            this.$router.push('/looking')
+          })
+          .catch(() => {
+            this.HouseTitle = ''
+            this.HouseDescription = ''
+            this.HousingAllocation = []
+            this.price = ''
+            this.floorNum = ''
+            this.ChooseRoom = {}
+            this.SelectFloor = {}
+            this.ChooseTowards = {}
+            this.fileList = []
+            this.$refs.vanCell.forEach((ele) => {
+              ele.style.color = ''
+            })
+            this.$refs.vanCell1.forEach((ele) => {
+              ele.style.color = ''
+            })
+          })
+      } catch (err) {
+        this.$toast('发布失败请稍后再试')
+      }
+    },
+    noRental() {
+      this.HouseTitle = ''
+      this.HouseDescription = ''
+      this.HousingAllocation = []
+      this.price = ''
+      this.floorNum = ''
+      this.ChooseRoom = {}
+      this.SelectFloor = {}
+      this.ChooseTowards = {}
+      this.fileList = []
+      this.$refs.vanCell.forEach((ele) => {
+        ele.style.color = ''
+      })
+      this.$refs.vanCell1.forEach((ele) => {
+        ele.style.color = ''
+      })
+    },
+    async ImageUpload(file) {
+      // 获取文件地址
+      try {
+        const fromdata = new FormData()
+        fromdata.append('file', file.file)
+        const { data } = await ImageUpload(fromdata)
+        this.Rental(data.body[0])
+      } catch (err) {
+        this.$toast('房屋图片不能为空')
+      }
     }
   },
   created() {
@@ -265,10 +400,19 @@ export default {
   }
 }
 .houseIcon {
-  // width: 25%;
-  :deep(.van-grid-item) {
-    // width: 20%;
-    width: 50px;
+  span {
+    font-size: 16px;
+  }
+  .iconfont {
+    font-size: 20px;
+  }
+}
+.ClickOnColor {
+  span {
+    color: #21b97a;
+  }
+  .iconfont {
+    color: #21b97a;
   }
 }
 </style>

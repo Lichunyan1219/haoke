@@ -40,3 +40,20 @@ export const PublishingHouse = () => {
     url: '/houses/params'
   })
 }
+// 发布房源
+export const Rental = (data) => {
+  return request({
+    method: 'POST',
+    url: '/user/houses',
+    data
+  })
+}
+
+// 上传房屋图片
+export const ImageUpload = (file) => {
+  return request({
+    url: '/houses/image',
+    method: 'POST',
+    data: file
+  })
+}

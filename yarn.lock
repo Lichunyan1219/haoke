@@ -2182,6 +2182,11 @@ camel-case@^4.1.2:
     pascal-case "^3.1.2"
     tslib "^2.0.3"
 
+camelcase@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npmmirror.com/camelcase/-/camelcase-1.2.1.tgz#9bb5304d2e0b56698b2c758b08a3eaa9daa58a39"
+  integrity sha512-wzLkDa4K/mzI1OSITC+DUyjgIl/ETNHE9QvYgy6J6Jvqyyz4C0Xfd+lQhb19sX2jMpZV4IssUn0VDVmglV+s4g==
+
 camelcase@^5.0.0:
   version "5.3.1"
   resolved "https://registry.npmmirror.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
@@ -6419,6 +6424,13 @@ update-browserslist-db@^1.0.4:
     escalade "^3.1.1"
     picocolors "^1.0.0"
 
+uppercamelcase@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmmirror.com/uppercamelcase/-/uppercamelcase-1.1.0.tgz#324d98a6b3afc7e8a8953e10641509b0e4e23f97"
+  integrity sha512-C7YEMvhgrvTEKEEVqA7LXNID/1TvvIwYZqNIKLquS6y/MGSkRQAav9LnTTILlC1RqUM8eTVBOe1U/fnB652PRA==
+  dependencies:
+    camelcase "^1.2.1"
+
 uri-js@^4.2.2:
   version "4.4.1"
   resolved "https://registry.npmmirror.com/uri-js/-/uri-js-4.4.1.tgz#9b1a52595225859e55f669d928f88c6c57f2a77e"
@@ -6485,6 +6497,13 @@ vue-baidu-map@^0.21.22:
     bmaplib.lushu "^1.0.7"
     bmaplib.markerclusterer "^1.0.13"
     markdown-it "^8.4.0"
+
+vue-bmap-gl@^0.0.30:
+  version "0.0.30"
+  resolved "https://registry.npmmirror.com/vue-bmap-gl/-/vue-bmap-gl-0.0.30.tgz#06cc424dd306e62a9e5f20977800fc6da6726d71"
+  integrity sha512-b7rhG9otMZYH/MhnKnMR1NuCzeeytJygqtBRriyE4kPPLz4EvsisMXIITLCY+lsGs84kWtE7ef0ZVNz8K08njg==
+  dependencies:
+    uppercamelcase "^1.1.0"
 
 vue-eslint-parser@^8.0.1:
   version "8.3.0"
